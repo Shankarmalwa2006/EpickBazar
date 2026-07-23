@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Register · EPICK-service provider booking{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <div class="mb-3">
+            <div class="badge text-bg-dark">Create account</div>
+          </div>
+          <h1 class="h4 fw-semibold mb-1">Get started</h1>
+          <p class="text-secondary mb-4">Choose a role and start booking or providing services.</p>
+
+          <form class="needs-validation" data-validate="register" novalidate method="post">
+            <div class="mb-3">
+              <label for="name" class="form-label">Full name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                required
+                minlength="2"
+                maxlength="60"
+                placeholder="Your name"
+                autocomplete="name"
+              />
+              <div class="invalid-feedback">Name is required (2–60 characters).</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+                minlength="6"
+                placeholder="Minimum 6 characters"
+                autocomplete="new-password"
+              />
+              <div class="invalid-feedback">Password is required (min 6 characters).</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Role</label>
+              <div class="row g-2">
+                <div class="col-sm-6">
+                  <div class="role-tile">
+                    <input class="form-check-input" type="radio" name="role" id="roleUser" value="user" checked />
+                    <label class="form-check-label w-100" for="roleUser">
+                      <div class="fw-semibold">User</div>
+                      <div class="small text-secondary">Book services and track status</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="role-tile">
+                    <input class="form-check-input" type="radio" name="role" id="roleProvider" value="provider" />
+                    <label class="form-check-label w-100" for="roleProvider">
+                      <div class="fw-semibold">Service Provider</div>
+                      <div class="small text-secondary">Add services and manage requests</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-dark w-100" type="submit">Create account</button>
+
+            <div class="d-flex justify-content-between mt-3 small">
+              <span class="text-secondary">Already have an account?</span>
+              <a href="{{ url_for('login') }}" class="link-dark fw-semibold">Login</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

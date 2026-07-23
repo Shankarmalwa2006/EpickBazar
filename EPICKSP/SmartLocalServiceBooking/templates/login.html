@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Login · EPICK-service provider booking{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-md-5">
+          <div class="mb-3">
+            <div class="badge text-bg-dark">Account</div>
+          </div>
+          <h1 class="h4 fw-semibold mb-1">Welcome back</h1>
+          <p class="text-secondary mb-4">Log in to manage bookings and services.</p>
+
+          <form
+            class="needs-validation"
+            data-validate="login"
+            novalidate
+            method="post"
+            action="{{ url_for('login', next=request.args.get('next')) }}"
+          >
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                autocomplete="email"
+              />
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+                minlength="6"
+                autocomplete="current-password"
+              />
+              <div class="invalid-feedback">Password is required (min 6 characters).</div>
+            </div>
+
+            <button class="btn btn-dark w-100" type="submit">Login</button>
+
+            <div class="d-flex justify-content-between mt-3 small">
+              <span class="text-secondary">New here?</span>
+              <a href="{{ url_for('register') }}" class="link-dark fw-semibold">Create an account</a>
+            </div>
+          </form>
+
+          <hr class="my-4" />
+          <div class="small text-secondary">
+            Admin demo login:
+            <div class="mt-1">
+              <span class="badge text-bg-light border">admin@smartlocal.com</span>
+              <span class="badge text-bg-light border">Admin@123</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

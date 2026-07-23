@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if mode == 'provider' %}Booking Requests{% else %}My Bookings{% endif %}
+  · EPICK-service provider booking
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 mb-3">
+    <div>
+      <h1 class="h4 fw-semibold mb-1">
+        {% if mode == 'provider' %}Booking Requests{% else %}My Bookings{% endif %}
+      </h1>
+      <div class="text-secondary small">
+        {% if mode == 'provider' %}
+          Update status for incoming requests.
+        {% else %}
+          Track status of your requests.
+        {% endif %}
+      </div>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-dark btn-sm" href="{{ url_for('services') }}">Services</a>
+      {% if mode == 'provider' %}
+        <a class="btn btn-dark btn-sm" href="{{ url_for('add_service') }}">Add service</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if bookings|length == 0 %}
+    <div class="empty-state bg-white border rounded-4 p-4 shadow-sm">
+      <h2 class="h5 fw-semibold mb-1">No bookings yet</h2>
+      <p class="text-secondary mb-0">
+        {% if mode == 'provider' %}
+          When users book your services, requests will appear here.
+        {% else %}
+          Browse services and create your first booking.
+        {% endif %}
+      </p>
+      {% if mode != 'provider' %}
+        <div class="mt-3">
+          <a class="btn btn-dark btn-sm" href="{{ url_for('services') }}">Explore services</a>
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Service</th>
+              <th>Date</th>
+              <th class="d-none d-lg-table-cell">Address</th>
+              {% if mode == 'provider' %}
+                <th>User</th>
+              {% else %}
+                <th>Provider</th>
+              {% endif %}
+              <th>Status</th>
+              {% if mode == 'provider' %}
+                <th class="pe-4 text-end">Action</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in bookings %}
+              <tr>
+                <td class="ps-4">
+                  <div class="fw-semibold">{{ b.service_type }}</div>
+                  <div class="small text-secondary">{{ b.category }} · ₹{{ "%.2f"|format(b.price) }}</div>
+                </td>
+                <td>
+                  <div class="fw-semibold">{{ b.booking_date }}</div>
+                </td>
+                <td class="d-none d-lg-table-cell">
+                  <div class="small text-secondary">{{ b.address }}</div>
+                </td>
+                <td>
+                  {% if mode == 'provider' %}
+                    <div class="fw-semibold">{{ b.user_name }}</div>
+                    <div class="small text-secondary">{{ b.user_email }}</div>
+                  {% else %}
+                    <div class="fw-semibold">{{ b.provider_name }}</div>
+                  {% endif %}
+                </td>
+                <td>
+                  {% set badge =
+                    'secondary' if b.status == 'Pending' else
+                    'success' if b.status == 'Completed' else
+                    'primary' if b.status == 'Accepted' else
+                    'danger'
+                  %}
+                  <span class="badge text-bg-{{ badge }}">{{ b.status }}</span>
+                </td>
+
+                {% if mode == 'provider' %}
+                  <td class="pe-4 text-end">
+                    <form class="d-inline-flex gap-2" method="post" action="{{ url_for('update_booking_status', booking_id=b.id) }}">
+                      <select class="form-select form-select-sm" name="status" aria-label="Update status">
+                        {% for s in ['Pending','Accepted','Completed','Rejected'] %}
+                          <option value="{{ s }}" {% if s == b.status %}selected{% endif %}>{{ s }}</option>
+                        {% endfor %}
+                      </select>
+                      <button class="btn btn-dark btn-sm" type="submit">Update</button>
+                    </form>
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+

@@ -1,0 +1,237 @@
+/* EPICK-service provider booking - white + gray theme */
+
+:root {
+  --card-radius: 1rem;
+  --bg-main: #ffffff;
+  --bg-elevated: #f9fafb;
+  --bg-soft: #f3f4f6;
+  --border-subtle: rgba(107, 114, 128, 0.25);
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --primary: #4b5563; /* dark gray */
+  --accent: #9ca3af; /* medium gray */
+  --primary-soft: rgba(75, 85, 99, 0.08);
+}
+
+body {
+  font-feature-settings: "ss01" 1, "ss02" 1;
+  background: radial-gradient(circle at top, #f3f4f6 0, #ffffff 55%, #e5e7eb 100%);
+  color: var(--text-main);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("/static/images/epick-logo-main.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: min(55vw, 520px);
+  opacity: 0.12;
+  filter: drop-shadow(0 0 32px rgba(15, 23, 42, 0.35));
+  mix-blend-mode: lighten;
+  z-index: -1;
+}
+
+.bg-body-tertiary {
+  background-color: transparent !important;
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(20px);
+  border-color: rgba(209, 213, 219, 0.8) !important;
+}
+
+.navbar-brand {
+  letter-spacing: 0.2px;
+  color: #0f172a !important;
+}
+
+.epick-logo-mark {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.1rem 0.6rem rgba(15, 23, 42, 0.9);
+}
+
+.navbar .nav-link {
+  color: var(--text-muted) !important;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--primary) !important;
+}
+
+main > .container {
+  color: var(--text-main);
+}
+
+.card,
+.empty-state,
+.modal-content {
+  background: var(--bg-elevated);
+  border-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+.rounded-4 {
+  border-radius: var(--card-radius) !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.8rem 2rem rgba(15, 23, 42, 0.08) !important;
+}
+
+.service-card:hover {
+  transform: translateY(-2px);
+  /* existing light shadow plus a darker overlay for contrast */
+  box-shadow: 0 1rem 2.4rem rgba(75, 85, 99, 0.15),
+              0 0 0.6rem rgba(0, 0, 0, 0.35);
+  transition: all 140ms ease;
+}
+
+/* utility class for any element that should get a black transparent shadow on hover */
+.hover-shadow:hover {
+  box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.35);
+  transition: box-shadow 140ms ease;
+}
+
+/* apply a subtle dark overlay to common interactive elements too */
+.card:hover,
+.btn:hover,
+.navbar .nav-link:hover,
+.role-tile:hover {
+    box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.35) !important;
+    transition: box-shadow 140ms ease;
+}
+
+.price-tag {
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: #374151;
+  border: 1px solid rgba(75, 85, 99, 0.4);
+  white-space: nowrap;
+}
+
+.empty-state {
+  min-height: 140px;
+}
+
+.step-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  background: var(--accent);
+  color: #ffffff;
+  flex: 0 0 auto;
+}
+
+.role-tile {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.9rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0.9rem;
+  background: #ffffff;
+}
+
+.role-tile:hover {
+  border-color: rgba(75, 85, 99, 0.7);
+}
+
+footer {
+  background: #ffffff !important;
+  border-color: rgba(209, 213, 219, 0.8) !important;
+}
+
+footer .small {
+  color: var(--text-muted) !important;
+}
+
+.alert {
+  border-radius: 0.9rem;
+}
+
+code {
+  background: #e5e7eb;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.35rem;
+  color: #111827;
+}
+
+/* Buttons (dark gray primary) */
+.btn-dark {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-dark:hover {
+  background-color: #3f4758;
+  border-color: #3f4758;
+}
+
+.btn-outline-dark {
+  border-color: rgba(107, 114, 128, 0.8);
+  color: #111827;
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--primary-soft);
+  border-color: rgba(75, 85, 99, 0.7);
+  color: #111827;
+}
+
+/* Inputs on light background */
+.form-control,
+.form-select,
+textarea {
+  background-color: #ffffff;
+  border-color: var(--border-subtle);
+  color: var(--text-main);
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  border-color: rgba(75, 85, 99, 0.8);
+  box-shadow: 0 0 0 0.2rem rgba(75, 85, 99, 0.2);
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.table {
+  color: var(--text-main);
+}
+
+.table-light {
+  background-color: #f3f4f6 !important;
+}
+
+.table > :not(caption) > * > * {
+  background-color: transparent;
+  border-color: rgba(209, 213, 219, 0.9);
+}
+
+.badge.text-bg-light {
+  background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
+  border-color: rgba(107, 114, 128, 0.6) !important;
+}
+

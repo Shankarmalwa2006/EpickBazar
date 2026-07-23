@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Services · EPICK-service provider booking{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 mb-3">
+    <div>
+      <h1 class="h4 fw-semibold mb-1">Services</h1>
+      <div class="text-secondary small">Browse and book local services.</div>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      {% if current_user and current_user.role == 'provider' %}
+        <a class="btn btn-dark btn-sm" href="{{ url_for('add_service') }}">Add service</a>
+      {% endif %}
+      {% if not current_user %}
+        <a class="btn btn-outline-dark btn-sm" href="{{ url_for('login') }}">Login to book</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if services|length == 0 %}
+    <div class="empty-state bg-white border rounded-4 p-4 shadow-sm">
+      <h2 class="h5 fw-semibold mb-1">No services yet</h2>
+      <p class="text-secondary mb-0">Providers can add the first service from their dashboard.</p>
+    </div>
+  {% else %}
+    <div class="row g-3">
+      {% for s in services %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 h-100 service-card">
+            <div class="card-body p-4 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start gap-2">
+                <div>
+                  <div class="badge text-bg-light border mb-2">{{ s.category }}</div>
+                  <h2 class="h5 fw-semibold mb-1">{{ s.service_type }}</h2>
+                  <div class="small text-secondary mb-2">by {{ s.provider_name }}</div>
+                </div>
+                <div class="text-end">
+                  <div class="price-tag">₹{{ "%.2f"|format(s.price) }}</div>
+                </div>
+              </div>
+
+              <p class="text-secondary small flex-grow-1 mb-3">
+                {{ s.description }}
+              </p>
+
+              {% if current_user and current_user.role == 'user' %}
+                <button
+                  class="btn btn-dark w-100"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#bookModal{{ s.id }}"
+                >
+                  Book now
+                </button>
+              {% elif not current_user %}
+                <a class="btn btn-outline-dark w-100" href="{{ url_for('login', next=url_for('services')) }}">
+                  Login to book
+                </a>
+              {% else %}
+                <div class="small text-secondary">
+                  {% if current_user.role == 'provider' %}
+                    Providers can manage services from dashboard.
+                  {% elif current_user.role == 'admin' %}
+                    Admin view only.
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        {% if current_user and current_user.role == 'user' %}
+          <div class="modal fade" id="bookModal{{ s.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content rounded-4">
+                <div class="modal-header">
+                  <h5 class="modal-title">Book: {{ s.service_type }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form
+                  method="post"
+                  class="needs-validation"
+                  data-validate="booking"
+                  novalidate
+                  action="{{ url_for('book_service', service_id=s.id) }}"
+                >
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label class="form-label" for="booking_date_{{ s.id }}">Booking date</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="booking_date_{{ s.id }}"
+                        name="booking_date"
+                        required
+                      />
+                      <div class="invalid-feedback">Please choose a valid date.</div>
+                    </div>
+                    <div class="mb-2">
+                      <label class="form-label" for="address_{{ s.id }}">Address</label>
+                      <textarea
+                        class="form-control"
+                        id="address_{{ s.id }}"
+                        name="address"
+                        rows="3"
+                        required
+                        minlength="10"
+                        maxlength="200"
+                        placeholder="Enter your full address"
+                      ></textarea>
+                      <div class="invalid-feedback">Address is required (min 10 characters).</div>
+                    </div>
+                    <div class="small text-secondary mt-2">
+                      Status will start as <span class="fw-semibold">Pending</span>.
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-dark">Confirm booking</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+

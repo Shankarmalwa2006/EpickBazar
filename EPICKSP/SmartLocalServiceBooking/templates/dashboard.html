@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard · EPICK-service provider booking{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 mb-3">
+    <div>
+      <h1 class="h4 fw-semibold mb-1">Dashboard</h1>
+      <div class="text-secondary small">
+        Hello <span class="fw-semibold">{{ current_user.name }}</span> —
+        {% if role == 'provider' %}
+          manage your services and booking requests.
+        {% elif role == 'user' %}
+          browse services and track your bookings.
+        {% else %}
+          manage the system.
+        {% endif %}
+      </div>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-dark btn-sm" href="{{ url_for('services') }}">View services</a>
+      {% if role == 'user' %}
+        <a class="btn btn-dark btn-sm" href="{{ url_for('my_bookings') }}">My bookings</a>
+      {% endif %}
+      {% if role == 'provider' %}
+        <a class="btn btn-dark btn-sm" href="{{ url_for('add_service') }}">Add service</a>
+        <a class="btn btn-outline-dark btn-sm" href="{{ url_for('provider_bookings') }}">Booking requests</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row g-3">
+    {% if role == 'user' %}
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-body p-4">
+            <div class="badge text-bg-light border mb-2">For Users</div>
+            <h2 class="h5 fw-semibold">Book services</h2>
+            <p class="text-secondary mb-3">Choose a service and send a booking request.</p>
+            <a class="btn btn-dark" href="{{ url_for('services') }}">Browse services</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-body p-4">
+            <div class="badge text-bg-light border mb-2">Track</div>
+            <h2 class="h5 fw-semibold">View booking status</h2>
+            <p class="text-secondary mb-3">Pending → Accepted → Completed (or Rejected).</p>
+            <a class="btn btn-outline-dark" href="{{ url_for('my_bookings') }}">My bookings</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if role == 'provider' %}
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-body p-4">
+            <div class="badge text-bg-light border mb-2">For Providers</div>
+            <h2 class="h5 fw-semibold">Add your services</h2>
+            <p class="text-secondary mb-3">Create listings to accept local bookings.</p>
+            <a class="btn btn-dark" href="{{ url_for('add_service') }}">Add service</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-body p-4">
+            <div class="badge text-bg-light border mb-2">Requests</div>
+            <h2 class="h5 fw-semibold">Manage bookings</h2>
+            <p class="text-secondary mb-3">Accept, reject, or mark completed.</p>
+            <a class="btn btn-outline-dark" href="{{ url_for('provider_bookings') }}">View requests</a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Home · EPICK-service provider booking{% endblock %}
+
+{% block content %}
+  <div class="row align-items-center g-4">
+    <div class="col-lg-7">
+      <div class="p-4 p-md-5 bg-white border rounded-4 shadow-sm">
+        <div class="badge text-bg-dark mb-3">EPICK-service provider booking</div>
+        <h1 class="display-6 fw-semibold mb-2">Book trusted local services in minutes.</h1>
+        <p class="text-secondary mb-4">
+          Browse services, request bookings, and track status — all in one simple dashboard.
+        </p>
+
+        {% if error %}
+          <div class="alert alert-warning border-0 bg-warning-subtle">
+            <div class="fw-semibold mb-1">Something happened</div>
+            <div class="small" style="white-space: pre-wrap;">{{ error }}</div>
+          </div>
+        {% endif %}
+
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-dark" href="{{ url_for('services') }}">Explore services</a>
+          {% if not current_user %}
+            <a class="btn btn-outline-dark" href="{{ url_for('register') }}">Create account</a>
+          {% else %}
+            <a class="btn btn-outline-dark" href="{{ url_for('dashboard') }}">Go to dashboard</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="p-4 bg-white border rounded-4 shadow-sm">
+        <h2 class="h5 fw-semibold mb-3">How it works</h2>
+        <div class="d-flex gap-3 mb-3">
+          <div class="step-badge">1</div>
+          <div>
+            <div class="fw-semibold">Find a service</div>
+            <div class="small text-secondary">Browse categories and compare prices.</div>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mb-3">
+          <div class="step-badge">2</div>
+          <div>
+            <div class="fw-semibold">Request a booking</div>
+            <div class="small text-secondary">Pick a date and share your address.</div>
+          </div>
+        </div>
+        <div class="d-flex gap-3">
+          <div class="step-badge">3</div>
+          <div>
+            <div class="fw-semibold">Track status</div>
+            <div class="small text-secondary">Pending → Accepted → Completed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
